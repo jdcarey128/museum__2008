@@ -13,7 +13,7 @@ class Museum
     @exhibits << exhibit
   end
 
-  def add_patron(patron)
+  def admit(patron)
     @patrons << patron
   end
 
