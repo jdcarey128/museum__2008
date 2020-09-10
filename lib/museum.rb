@@ -38,6 +38,14 @@ class Museum
   end
 
   def patrons_by_exhibit_interest
+    new_patron_exhibit_interests = patron_exhibit_interests
+    exhibit_interests = patron_exhibit_interests.keys
+    @exhibits.each do |exhibit|
+      if !exhibit_interests.include?(exhibit)
+        new_patron_exhibit_interests[exhibit] = []
+      end
+    end
+    new_patron_exhibit_interests
   end
 
 end
