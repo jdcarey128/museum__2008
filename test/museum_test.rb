@@ -56,7 +56,29 @@ class MuseumTest < Minitest::Test
     assert_equal expected_2, @dmns.recommend_exhibits(@patron_2)
   end
 
+  def test_it_can_list_patron_exhibit_interest
+    gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
+    dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
+    imax = Exhibit.new({name: "IMAX",cost: 15})
+    @dmns.add_exhibit(gems_and_minerals)
+    @dmns.add_exhibit(dead_sea_scrolls)
+    @dmns.add_exhibit(imax)
+    @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest("Dead Sea Scrolls")
+    @patron_2.add_interest("Dead Sea Scrolls")
+    @patron_3.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@patron_1)
+    @dmns.admit(@patron_2)
+    @dmns.admit(@patron_3)
+    expected = {
+      gems_and_minerals => [@patron_1],
+      dead_sea_scrolls => [@patron_1, @patron_2, @patron_3],
+    }
+    assert_equal expected, @dmns.patron_exhibit_interests
+  end
+
   def test_it_can_list_patrons_by_exhibit_interest
+    skip 
     gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     imax = Exhibit.new({name: "IMAX",cost: 15})
