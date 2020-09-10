@@ -139,7 +139,6 @@ class MuseumTest < Minitest::Test
   end
 
   def test_it_can_announce_a_lottery_winner
-    skip
     gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     imax = Exhibit.new({name: "IMAX",cost: 15})
@@ -154,8 +153,9 @@ class MuseumTest < Minitest::Test
     @dmns.admit(@patron_2)
     @dmns.admit(@patron_3)
     expected = "Bob has won the IMAX exhibit lottery"
-    assert_equal expected, @dmns.draw_lottery_winner(dead_sea_scrolls)
-    assert_equal nil, @dmns.draw_lottery_winner(gems_and_minerals)
+    assert_equal "No winners for this lottery", @dmns.announce_lottery_winner(gems_and_minerals)
+    @dmns.stubs(:ticket_lottery_contestants).returns([@patron_1])
+    assert_equal expected, @dmns.announce_lottery_winner(imax)
   end
 
 end
