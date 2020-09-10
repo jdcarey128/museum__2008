@@ -32,7 +32,15 @@ class MuseumTest < Minitest::Test
     assert_equal expected, @dmns.exhibits
   end
 
+  def test_it_can_add_patrons
+    assert_equal [], @dmns.patrons
+    @dmns.add_patron(@patron_1)
+    @dmns.add_patron(@patron_2)
+    assert_equal [@patron_1, @patron_2], @dmns.patrons
+  end
+
   def test_it_can_recommend_exhibits_based_on_interest
+    skip 
     gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     imax = Exhibit.new({name: "IMAX",cost: 15})
