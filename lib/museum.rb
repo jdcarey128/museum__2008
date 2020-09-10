@@ -1,7 +1,7 @@
 class Museum
   attr_reader :name,
               :exhibits,
-              :patrons 
+              :patrons
 
   def initialize(name)
     @name = name
@@ -17,7 +17,9 @@ class Museum
     @patrons << patron
   end
 
-  def recommend_exhibits
-
+  def recommend_exhibits(patron)
+    @exhibits.select do |exhibit|
+      patron.interests.include?(exhibit.name)
+    end
   end
 end
