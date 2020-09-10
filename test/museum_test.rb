@@ -3,6 +3,7 @@ require 'minitest/pride'
 require './lib/museum'
 require './lib/patron'
 require './lib/exhibit'
+require 'mocha/minitest'
 
 class MuseumTest < Minitest::Test
 
@@ -132,12 +133,13 @@ class MuseumTest < Minitest::Test
     @dmns.admit(@patron_1)
     @dmns.admit(@patron_2)
     @dmns.admit(@patron_3)
-    @dmns.stubs(:draw_lottery_winner).returns("Johnny")
+    assert_equal nil, @dmns.draw_lottery_winner(gems_and_minerals)
+    @dmns.stubs(:ticket_lottery_contestants).returns([@patron_3])
     assert_equal "Johnny", @dmns.draw_lottery_winner(dead_sea_scrolls)
   end
 
   def test_it_can_announce_a_lottery_winner
-    skip 
+    skip
     gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     imax = Exhibit.new({name: "IMAX",cost: 15})
